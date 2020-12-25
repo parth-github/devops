@@ -1,0 +1,25 @@
+
+Module-7: Automation with Chef
+
+Assignment
+Install Chef Server and set up the Workstation on Node A. Install Apache2 and NGINX on Node B and Node C
+
+Assume Node A is for DEV and Node B Is for PROD. Use Environment variables to set Node A to listen on port 90 and Node B to listen on Port 99
+
+
+Assignment Solution
+ Installing Chef has already been covered in Installation Document. Recipes for
+installing Apache2 and Nginx are inside the attached ZIP file
+Download zip files from the below link
+https://edureka.wistia.com/medias/4hmn1l1ibx/download?media_file_id=113634485
+https://edureka.wistia.com/medias/4h0w0myhxl/download?media_file_id=113634486
+
+ You can then use knife node to add the install apache2 or nginx to the run list (or)
+use knife bootstrap via ssh as below:
+knife bootstrap --run-list "role[webappserver]" --sudo hostname
+
+ With second option, you do have to create a role call webappserver that includes the
+install of Apache2/NGINX in the run list
+
+ In similar vein, create roles dev and production and update attached scripts to use a
+default port of 80 with a force override of http_port to 90/99 based on role name

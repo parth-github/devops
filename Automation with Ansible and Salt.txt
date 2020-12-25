@@ -1,0 +1,38 @@
+Module-6: Introduction to Automation with Ansible and Salt
+
+Assignment
+Install Ansibleand set up a YAML file to register some test users
+Create a group of 2 web servers where NGINX is not installed and used Ansible to deploy NGINX to both servers
+
+
+Assignment Solution
+Installing Ansible has already been covered in Installation Document. Sample of adding
+multiple users is:
+- name: add several users
+ user: name={{ item }} state=present groups=wheel
+ with_items:
+ - testuser1
+ - testuser2
+Edit /etc/ansible/hosts like this:
+# /etc/ansible/hosts
+[nginx]
+192.168.1.30
+192.168.1.31
+Add Deploy.yml with content below:
+# ./ansible-nginx/deploy.yml
+- hosts: nginx
+ tasks:
+ - include: 'tasks/install_nginx.yml'
+The install_nginx.yml file contains:
+# ./ansible-nginx/tasks/install_nginx.yml
+- name: NGINX | Installing NGINX repo rpm
+ yum:
+ name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+- name: NGINX | Installing NGINX
+ yum:
+ name: nginx
+ state: latest
+- name: NGINX | Starting NGINX
+ service:
+ name: nginx
+ state: started
